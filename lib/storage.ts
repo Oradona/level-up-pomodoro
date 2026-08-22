@@ -180,8 +180,12 @@ export function loadFriends(): Friend[] {
     writeJSON(STORAGE_KEYS.friends, MOCK_FRIENDS);
     return MOCK_FRIENDS;
   }
-  const parsed = readJSON<Friend[]>(STORAGE_KEYS.friends, MOCK_FRIENDS);
-  return Array.isArray(parsed) ? parsed : MOCK_FRIENDS;
+  try {
+    const parsed = JSON.parse(raw) as Friend[];
+    return Array.isArray(parsed) ? parsed : MOCK_FRIENDS;
+  } catch {
+    return MOCK_FRIENDS;
+  }
 }
 
 export function saveFriends(friends: Friend[]): void {
