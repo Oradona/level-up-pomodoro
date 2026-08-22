@@ -1,0 +1,11 @@
+{
+  "name": "level-up-pomodoro",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "sh -c 'npm --prefix backend start & npm --prefix frontend dev -- --host'",
+    "backend": "npm --prefix backend start",
+    "frontend": "npm --prefix frontend dev -- --host",
+    "build": "npm --prefix frontend run build"
+  }
+}
