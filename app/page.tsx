@@ -44,6 +44,7 @@ export default function Home() {
     loading: false,
   });
 
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
   const xp = useXP();
   const stats = useStats();
   const friends = useFriends();
@@ -89,7 +90,11 @@ export default function Home() {
   });
 
   const handleResetData = useCallback(() => {
-    if (!window.confirm('모든 데이터를 삭제할까요? 되돌릴 수 없습니다.')) return;
+    setShowResetConfirm(true);
+  }, []);
+
+  const confirmReset = useCallback(() => {
+    setShowResetConfirm(false);
     resetAll();
     window.location.reload();
   }, []);
@@ -198,6 +203,39 @@ export default function Home() {
         loading={levelUp.loading}
         onClose={() => setLevelUp((prev) => ({ ...prev, open: false }))}
       />
+
+      {showResetConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="reset-title"
+          aria-describedby="reset-desc"
+        >
+          <div className="w-full max-w-sm rounded-2xl bg-gray-800 p-6 shadow-2xl">
+            <h2 id="reset-title" className="mb-2 text-lg font-bold text-white">
+              데이터 초기화
+            </h2>
+            <p id="reset-desc" className="mb-6 text-gray-300">
+              모든 데이터를 삭제할까요? 되돌릴 수 없습니다.
+            </p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowResetConfirm(false)}
+                className="rounded-lg px-4 py-2 text-gray-300 hover:bg-gray-700 transition-colors"
+              >
+                취소
+              </button>
+              <button
+                onClick={confirmReset}
+                className="rounded-lg bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-500 transition-colors"
+              >
+                초기화
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

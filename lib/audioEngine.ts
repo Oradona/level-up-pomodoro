@@ -119,7 +119,7 @@ export class AudioEngine {
       this.masterGain.gain.cancelScheduledValues(this.ctx.currentTime);
       this.masterGain.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.2);
     }
-    window.setTimeout(() => this.stopSources(), 400);
+    globalThis.setTimeout(() => this.stopSources(), 400);
     this.currentType = null;
   }
 
